@@ -1,6 +1,7 @@
 from user.models import User
 from Profile.models import Profile, Relationship
 from rest_framework import serializers
+from .models import Event
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -32,3 +33,9 @@ class RelationshipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Relationship
         fields = ('from_person', 'to_person', 'uuid')
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ('title', 'info_link', 'image_link', 'date_string', 'location', 'province', 'category')

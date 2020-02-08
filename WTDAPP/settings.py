@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'background_task',
     'user',
+    'WTDAPI',
     'Profile',
 ]
 
@@ -73,6 +74,9 @@ TEMPLATES = [
 ]
 
 REST_FRAMEWORK = {
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100,
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
 
@@ -126,7 +130,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+BACKGROUND_TASK_RUN_ASYNC=True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 

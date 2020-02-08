@@ -15,14 +15,15 @@ import uuid
 
 class Event(models.Model):
     title = models.TextField(max_length=100, blank=True, )
-    info_link = models.TextField(max_length=100, blank=True, )
-    image_link = models.TextField(max_length=100, blank=True, )
+    info_link = models.CharField(max_length=150, blank=True, )
+    image_link = models.CharField(max_length=150, blank=True, )
     date_string = models.TextField(max_length=100, blank=True, )
     dates = models.DateField(_('Date of Birth'), null=True, blank=True, )
-    long_position = models.DecimalField(max_digits=8, decimal_places=3, blank=True,)
-    lat_position = models.DecimalField(max_digits=8, decimal_places=3, blank=True,)
-    location = models.TextField(blank=True, )
-    category = models.CharField(max_length=30, blank=True, )
+    long_position = models.DecimalField(max_digits=8, decimal_places=3, blank=True, null=True,)
+    lat_position = models.DecimalField(max_digits=8, decimal_places=3, blank=True, null=True,)
+    location = models.TextField(blank=True, null=True,)
+    province = models.TextField(blank=True, null=True, )
+    category = models.CharField(max_length=30, blank=True, null=True, )
     slug = models.SlugField(blank=True, unique=True)
 
     def save(self, **kwargs):
