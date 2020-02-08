@@ -2,7 +2,7 @@ from background_task import background
 import requests
 from bs4 import BeautifulSoup
 from geopy.geocoders import Bing
-from time import sleep
+
 
 
 
