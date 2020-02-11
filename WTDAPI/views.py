@@ -43,7 +43,7 @@ class GetProvinceEvents(generics.ListAPIView):
 
 
 class Scrape(APIView):
-    #permission_classes(IsAdminUser)
+    permission_classes(IsAdminUser)
 
     def get(self, request, format=None):
         scrapeQuicket('gauteng')
