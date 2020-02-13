@@ -13,6 +13,7 @@ from rest_framework import status, generics
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .functions import scrapeQuicket
+from rest_framework.pagination import PageNumberPagination
 
 
 @csrf_exempt
@@ -32,12 +33,14 @@ class UserList(generics.ListAPIView):
     permission_classes = [IsAdminUser]
 
 
-class GetProvinceEvents(generics.ListAPIView):
+class GetProvinceEvents(APIView):
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
+    paginate_by = 10
 
     def get(self, request, *args, **kwargs):
         province = self.kwargs['province']
-        events = Event.objects.get_queryset(province=province)
+        events = Event.objects.filter(province=province)
         EvSerial = EventSerializer(events,many=True)
         return Response(EvSerial.data)
 

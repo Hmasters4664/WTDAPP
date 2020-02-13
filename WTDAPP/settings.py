@@ -77,7 +77,7 @@ TEMPLATES = [
 REST_FRAMEWORK = {
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 100,
+    'PAGE_SIZE': 5,
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
 
@@ -120,6 +120,8 @@ AUTH_PASSWORD_VALIDATORS = [
 SIMPLE_JWT = {
 'TOKEN_LIFETIME': timedelta(days=10),
 }
+
+
 
 
 # Internationalization
