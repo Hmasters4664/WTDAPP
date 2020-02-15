@@ -38,4 +38,4 @@ class RelationshipSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ('title', 'info_link', 'image_link', 'date_string', 'location', 'province', 'category')
+        fields = ('title', 'info_link', 'image_link', 'date_string', 'location', 'province', 'category', 'slug')

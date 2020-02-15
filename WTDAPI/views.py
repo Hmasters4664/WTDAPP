@@ -13,7 +13,8 @@ from rest_framework import status, generics
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .functions import scrapeQuicket
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+from .paganation import TenPage
 
 
 @csrf_exempt
@@ -33,16 +34,30 @@ class UserList(generics.ListAPIView):
     permission_classes = [IsAdminUser]
 
 
-class GetProvinceEvents(APIView):
+class GetProvinceEvents(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
-    pagination_class = PageNumberPagination
-    paginate_by = 10
+    pagination_class = LimitOffsetPagination
+    page_size = 5
+    serializer_class = EventSerializer
 
-    def get(self, request, *args, **kwargs):
+    def get_queryset(self):
         province = self.kwargs['province']
-        events = Event.objects.filter(province=province)
-        EvSerial = EventSerializer(events,many=True)
-        return Response(EvSerial.data)
+        return Event.objects.filter(province=province)
+
+    def list(self, request, *args, **kwargs):
+
+        events = self.get_queryset()
+        page = self.paginate_queryset(events)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            result = self.get_paginated_response(serializer.data)
+            data = result.data  # pagination data
+        else:
+            serializer = self.get_serializer(events, many=True)
+            data = serializer.data
+
+        return Response(data)
 
 
 class Scrape(APIView):

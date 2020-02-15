@@ -76,11 +76,10 @@ TEMPLATES = [
 
 REST_FRAMEWORK = {
 
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20,
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
-
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
@@ -118,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 SIMPLE_JWT = {
-'TOKEN_LIFETIME': timedelta(days=10),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=240),
 }
 
 
