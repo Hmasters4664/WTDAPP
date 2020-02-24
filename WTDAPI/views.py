@@ -15,6 +15,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from .functions import scrapeQuicket
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 from .paganation import TenPage
+from rest_framework import filters
 
 
 @csrf_exempt
@@ -58,6 +59,16 @@ class GetProvinceEvents(generics.ListAPIView):
             data = serializer.data
 
         return Response(data)
+
+
+class SearchEvents(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
+    page_size = 5
+    search_fields = ['title']
+    filter_backends = (filters.SearchFilter,)
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
 
 
 class Scrape(APIView):
