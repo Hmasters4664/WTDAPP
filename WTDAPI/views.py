@@ -36,12 +36,12 @@ class UserList(generics.ListAPIView):
 
 class GetProvinceEvents(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
-    pagination_class = LimitOffsetPagination
+    pagination_class = PageNumberPagination
     page_size = 5
     serializer_class = EventSerializer
 
     def get_queryset(self):
-        province = self.kwargs['province']
+        province = self.request.GET.get('province', "None")
         return Event.objects.filter(province=province)
 
     def list(self, request, *args, **kwargs):
