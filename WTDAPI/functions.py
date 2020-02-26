@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 from geopy.geocoders import Bing
 from time import sleep
 from .models import Event
+import re
+from datetime import datetime
 from .serializers import EventSerializer
 
 
@@ -43,3 +45,11 @@ def scrapeQuicket(words):
             url = 'https://www.quicket.com/events/south-africa/'+words+'/' + str(t) + '/?categories=' + category_n[k]
             print(url)
             quicket(url, word,words)
+
+def time(string):
+    p = string.split(' ')
+    p[1] = re.sub('\D', '', p[1])
+    strz = p[2] + ' ' + p[1] + ' ' + p[3]
+    print(strz)
+    datetime_object = datetime.strptime(strz, '%b %d %Y')
+    print(datetime_object)

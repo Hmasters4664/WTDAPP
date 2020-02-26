@@ -18,7 +18,7 @@ class Event(models.Model):
     info_link = models.CharField(max_length=150, blank=True, )
     image_link = models.CharField(max_length=150, blank=True, )
     date_string = models.TextField(max_length=100, blank=True, )
-    dates = models.DateField(_('Date of Birth'), null=True, blank=True, )
+    dates = models.DateField(_('Date'), null=True, blank=True, )
     long_position = models.DecimalField(max_digits=8, decimal_places=3, blank=True, null=True,)
     lat_position = models.DecimalField(max_digits=8, decimal_places=3, blank=True, null=True,)
     location = models.TextField(blank=True, null=True,)
