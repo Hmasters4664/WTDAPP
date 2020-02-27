@@ -21,13 +21,14 @@ def quicket(url, category,prov):
             location_elem = event.find('div', class_='event-list-venue')
             print(title_elem.text.strip())
             print(company_elem.text.strip())
+            dt = date(company_elem.text.strip())
             print(location_elem.text.strip())
             print(info_link.get('href'))
             print("https:" + image_link.get('src'))
             print(category)
             event = Event(title=title_elem.text.strip(), date_string=company_elem.text.strip()
                           , info_link=info_link.get('href'), image_link="https:" + image_link.get('src'),
-                          location=location_elem.text.strip(), province=prov, category=category)
+                          location=location_elem.text.strip(), province=prov, category=category, dates=dt)
             event.save()
             sleep(1)
 
@@ -46,10 +47,19 @@ def scrapeQuicket(words):
             print(url)
             quicket(url, word,words)
 
-def time(string):
+
+def date(string):
     p = string.split(' ')
-    p[1] = re.sub('\D', '', p[1])
-    strz = p[2] + ' ' + p[1] + ' ' + p[3]
-    print(strz)
-    datetime_object = datetime.strptime(strz, '%b %d %Y')
-    print(datetime_object)
+    now = datetime.now()
+    if (p[0] != 'Runs'):
+        p[1] = re.sub('\D', '', p[1])
+        strz = p[2] + ' ' + p[1] + ' ' + p[3]
+        #print(strz)
+        datetime_object = datetime.strptime(strz, '%b %d %Y')
+        #print(datetime_object)
+    else:
+        dt = p[3] + ' ' + p[2] + ' ' + str(now.year)
+        datetime_object = datetime.strptime(dt, '%b %d %Y')
+        #print(datetime_object)
+    return datetime_object
+
