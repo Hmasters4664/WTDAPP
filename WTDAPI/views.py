@@ -61,6 +61,121 @@ class GetProvinceEvents(generics.ListAPIView):
         return Response(data)
 
 
+class GetProvinceDateEvents(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
+    page_size = 5
+    serializer_class = EventSerializer
+
+    def get_queryset(self):
+        province = self.request.GET.get('province', None)
+        date = self.request.GET.get('date', None)
+        if(date and province):
+            return Event.objects.filter(province=province, dates=date)
+        else:
+            return Event.objects.filter()
+
+    def list(self, request, *args, **kwargs):
+
+        events = self.get_queryset()
+        page = self.paginate_queryset(events)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            result = self.get_paginated_response(serializer.data)
+            data = result.data  # pagination data
+        else:
+            serializer = self.get_serializer(events, many=True)
+            data = serializer.data
+
+        return Response(data)
+
+
+class GetProvinceCategoryEvents(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
+    page_size = 5
+    serializer_class = EventSerializer
+
+    def get_queryset(self):
+        province = self.request.GET.get('province', None)
+        cat = self.request.GET.get('category', None)
+        if(cat and province):
+            return Event.objects.filter(province=province, category__contains=cat)
+        else:
+            return Event.objects.filter()
+
+    def list(self, request, *args, **kwargs):
+
+        events = self.get_queryset()
+        page = self.paginate_queryset(events)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            result = self.get_paginated_response(serializer.data)
+            data = result.data  # pagination data
+        else:
+            serializer = self.get_serializer(events, many=True)
+            data = serializer.data
+
+        return Response(data)
+
+
+class SearchAll(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
+    page_size = 5
+    serializer_class = EventSerializer
+
+    def get_queryset(self):
+        province = self.request.GET.get('province', None)
+        cat = self.request.GET.get('category', None)
+        date = self.request.GET.get('date', None)
+        if(cat and province and date):
+            return Event.objects.filter(province=province, category__contains=cat,dates=date)
+        else:
+            return Event.objects.filter()
+
+    def list(self, request, *args, **kwargs):
+
+        events = self.get_queryset()
+        page = self.paginate_queryset(events)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            result = self.get_paginated_response(serializer.data)
+            data = result.data  # pagination data
+        else:
+            serializer = self.get_serializer(events, many=True)
+            data = serializer.data
+
+        return Response(data)
+
+
+class GetEvents(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
+    page_size = 5
+    serializer_class = EventSerializer
+
+    def get_queryset(self):
+        return Event.objects.filter()
+
+    def list(self, request, *args, **kwargs):
+        events = self.get_queryset()
+        page = self.paginate_queryset(events)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            result = self.get_paginated_response(serializer.data)
+            data = result.data  # pagination data
+        else:
+            serializer = self.get_serializer(events, many=True)
+            data = serializer.data
+
+        return Response(data)
+
+
 class SearchEvents(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
