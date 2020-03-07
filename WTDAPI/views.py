@@ -192,3 +192,14 @@ class Scrape(APIView):
     def get(self, request, format=None):
         scrapeQuicket('gauteng')
         return Response(status=status.HTTP_200_OK)
+
+
+class FileUploadView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        image = self.request.FILES['image']
+        request.user.profile.profile_picture = image
+        request.user.profile.save()
+
+        return Response(status=status.HTTP_200_OK)

@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.urls import include, re_path, path
 from WTDAPI import views
 from .views import GetProvinceEvents, Scrape, SearchEvents, GetProvinceDateEvents, GetProvinceCategoryEvents, SearchAll\
-    , GetEvents
+    , GetEvents, FileUploadView
 
 
 urlpatterns = [
@@ -12,5 +12,6 @@ urlpatterns = [
     path('reg', Scrape.as_view(), name='scrape'),
     path('searchdate', GetProvinceDateEvents.as_view(), name='search-date'),
     path('searchcategory', GetProvinceCategoryEvents.as_view(), name='search-category'),
+    path('upload', FileUploadView.as_view()),
     path('search', SearchAll.as_view(), name='search'),
 ]

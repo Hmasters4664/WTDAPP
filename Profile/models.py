@@ -47,29 +47,33 @@ class Profile(models.Model):
     def save(self, **kwargs):
         if not self.name:
             self.name = "Unkown"
+        if not self.slug:
+            slug_str = "%s %s" % (self.name, uuid.uuid4())
+            self.slug = slugify(slug_str)
 
-        slug_str = "%s %s" % (self.name, uuid.uuid4())
-        self.slug = slugify(slug_str)
-        if self.profile_picture and not self.profile_small:
-            image = Image.open(self.profile_picture)
-            image.thumbnail((54, 54), Image.ANTIALIAS)
-            output = BytesIO()
-            image.save(output, format='JPEG', quality=85)
-            output.seek(0)
-            name = "%s %s" % (self.name, uuid.uuid4())
-            name += "-54.jpg"
-            self.profile_small = InMemoryUploadedFile(output, 'ImageField', name,
-                                                      'image/jpeg',
+        slr = self.slug
+        self.profile_picture.name =slr+".png"
+        image = Image.open(self.profile_picture)
+        image.thumbnail((54, 54), Image.ANTIALIAS)
+        output = BytesIO()
+        image=image.convert("RGBA")
+        image.save(output, format='PNG', quality=85)
+        output.seek(0)
+        name =slr
+        name += "-54.png"
+        self.profile_small = InMemoryUploadedFile(output, 'ImageField', name,
+                                                      'image/png',
                                                       sys.getsizeof(output), None)
-            image = Image.open(self.profile_picture)
-            image.thumbnail((160, 155), Image.ANTIALIAS)
-            output = BytesIO()
-            image.save(output, format='JPEG', quality=85)
-            output.seek(0)
-            name = "%s %s" % (self.name, uuid.uuid4())
-            name += "-160.jpg"
-            self.profile_medium = InMemoryUploadedFile(output, 'ImageField', name,
-                                                      'image/jpeg',
+        image = Image.open(self.profile_picture)
+        image.thumbnail((160, 155), Image.ANTIALIAS)
+        output = BytesIO()
+        image=image.convert("RGBA")
+        image.save(output, format='PNG', quality=85)
+        output.seek(0)
+        name =slr
+        name += "-160.png"
+        self.profile_medium = InMemoryUploadedFile(output, 'ImageField', name,
+                                                      'image/png',
                                                       sys.getsizeof(output), None)
         super(Profile, self).save(**kwargs)
 
