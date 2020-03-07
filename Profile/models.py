@@ -59,7 +59,7 @@ class Profile(models.Model):
         image=image.convert("RGBA")
         image.save(output, format='PNG', quality=85)
         output.seek(0)
-        name =slr
+        name = slr
         name += "-54.png"
         self.profile_small = InMemoryUploadedFile(output, 'ImageField', name,
                                                       'image/png',
@@ -70,7 +70,7 @@ class Profile(models.Model):
         image=image.convert("RGBA")
         image.save(output, format='PNG', quality=85)
         output.seek(0)
-        name =slr
+        name = slr
         name += "-160.png"
         self.profile_medium = InMemoryUploadedFile(output, 'ImageField', name,
                                                       'image/png',
